@@ -7,10 +7,11 @@ function CalendarScreen() {
 
 const styles = StyleSheet.create({
   block: {},
-  text: {
-    padding: 16,
-    fontSize: 24
-  }
+  rectangle: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'black',
+  },
 });
 
 export default CalendarScreen;

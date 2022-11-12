@@ -1,15 +1,47 @@
-import React from 'react';
-import { View, StyleSheet, Pressable, Platform } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, StyleSheet, Pressable, Platform, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 
-export default function FloatingWriteButton() {
+export default function FloatingWriteButton({ hidden }) {
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('Write');
   };
+  const animation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Animated.timing(animation, {
+    //   toValue: hidden ? 1 : 0,
+    //   useNativeDriver: true,
+    // }).start();
+    Animated.spring(animation, {
+      toValue: hidden ? 1 : 0,
+      useNativeDriver: true,
+      tension: 45,
+      friction: 4,
+    }).start();
+  }, [animation, hidden]);
   return (
-    <View style={styles.wrapper}>
+    <Animated.View
+      style={[
+        styles.wrapper,
+        {
+          transform: [
+            {
+              translateY: animation.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 88],
+              }),
+            },
+          ],
+          opacity: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [1, 0],
+          }),
+        },
+      ]}
+    >
       <Pressable
         style={({ pressed }) => [
           styles.button,
@@ -22,7 +54,7 @@ export default function FloatingWriteButton() {
       >
         <Icon name="add" size={24} style={styles.icon} />
       </Pressable>
-    </View>
+    </Animated.View>
   );
 }
 
