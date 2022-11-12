@@ -16,7 +16,7 @@ export const textSlice = createSlice({
   reducers: {
     setText: (state, action) => {
       state.text = action.payload;
-      state.log.push(action.payload);
+      state.log.unshift(action.payload);
     },
   },
 });
