@@ -1,21 +1,65 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import WriteHeader from '../components/WriteHeader';
 import WriteEditor from '../components/WriteEditor';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
-import { useDispatch } from 'react-redux';
-import { setText } from '../slices/textSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLogs, setText } from '../slices/textSlice';
 import { useNavigation } from '@react-navigation/native';
+import { v4 as uuidv4 } from 'uuid';
 
-function WriteScreen() {
+function WriteScreen({ route }) {
+  const { log } = useSelector(state => state.text);
+  const screenLog = route.params?.log;
+  console.log('write', log);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  const [title, setTitle] = useState(screenLog?.title ?? '');
+  const [body, setBody] = useState(screenLog?.body ?? '');
   const onSave = () => {
-    dispatch(setText({ id: 1, title, body, date: new Date().toISOString() }));
+    if (screenLog) {
+      onModify({
+        id: screenLog.id,
+        date: screenLog.date,
+        title,
+        body,
+      });
+    } else {
+      dispatch(
+        setText({ id: uuidv4(), title, body, date: new Date().toISOString() })
+      );
+    }
     navigation.pop();
+  };
+  const onModify = modified => {
+    const nextLogs = log.map(l => (l.id === modified.id ? modified : l));
+    console.log(nextLogs);
+    dispatch(setLogs(nextLogs));
+  };
+  const onRemove = id => {
+    const nextLogs = log.filter(l => l.id !== id);
+    dispatch(setLogs(nextLogs));
+  };
+  const onAskRemove = () => {
+    Alert.alert(
+      '삭제',
+      '정말로 삭제하시겠어요?',
+      [
+        { text: '취소', style: 'cancel' },
+        {
+          text: '삭제',
+          onPress: () => {
+            onRemove(screenLog?.id);
+            navigation.pop();
+          },
+          style: 'destructive',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
   };
 
   return (
@@ -24,7 +68,11 @@ function WriteScreen() {
         style={styles.avoidingView}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <WriteHeader onSave={onSave} />
+        <WriteHeader
+          onSave={onSave}
+          onAskRemove={onAskRemove}
+          isEditing={!!log}
+        />
         <WriteEditor
           title={title}
           body={body}

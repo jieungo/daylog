@@ -25,7 +25,7 @@ function FeedList({ logs, onScrolledToBottom }) {
       data={logs}
       style={styles.block}
       renderItem={({ item }) => <FeedListItem log={item} />}
-      keyExtractor={item => ++item.id}
+      keyExtractor={item => item.id}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       onScroll={onScroll}
     />

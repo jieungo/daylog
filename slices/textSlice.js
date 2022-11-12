@@ -18,8 +18,11 @@ export const textSlice = createSlice({
       state.text = action.payload;
       state.log.unshift(action.payload);
     },
+    setLogs: (state, action) => {
+      state.log = [...action.payload];
+    },
   },
 });
 
-export const { setText } = textSlice.actions;
+export const { setText, setLogs } = textSlice.actions;
 export default textSlice.reducer;
