@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  text: ''
+  text: {
+    id: '',
+    title: '',
+    body: '',
+    date: '',
+  },
+  log: [],
 };
 
 export const textSlice = createSlice({
@@ -10,8 +16,9 @@ export const textSlice = createSlice({
   reducers: {
     setText: (state, action) => {
       state.text = action.payload;
-    }
-  }
+      state.log.push(action.payload);
+    },
+  },
 });
 
 export const { setText } = textSlice.actions;

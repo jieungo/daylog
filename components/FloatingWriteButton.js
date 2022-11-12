@@ -14,8 +14,8 @@ export default function FloatingWriteButton() {
         style={({ pressed }) => [
           styles.button,
           Platform.OS === 'ios' && {
-            opacity: pressed ? 0.6 : 1
-          }
+            opacity: pressed ? 0.6 : 1,
+          },
         ]}
         android_ripple={{ color: 'white' }}
         onPress={onPress}
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
-    overflow: Platform.select({ android: 'hidden' })
+    overflow: Platform.select({ android: 'hidden' }),
   },
   button: {
     width: 56,
@@ -47,9 +47,9 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: '#009688',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   icon: {
-    color: 'white'
-  }
+    color: 'white',
+  },
 });

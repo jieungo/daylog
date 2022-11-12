@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useState } from 'react';
 import FeedsScreen from './FeedsScreen';
 import CalendarScreen from './CalendarScreen';
 import SearchScreen from './SearchScreen';
@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 function MainTab() {
   return (
     <Tab.Navigator
-      tabBarOptions={{ showLabel: false, activeTintColor: '#009688' }}
+      screenOptions={{ showLabel: false, activeTintColor: '#009688' }}
     >
       <Tab.Screen
         name="Feeds"
@@ -18,7 +18,7 @@ function MainTab() {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="view-stream" size={size} color={color} />
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -27,7 +27,7 @@ function MainTab() {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="event" size={size} color={color} />
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -36,7 +36,7 @@ function MainTab() {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="search" size={size} color={color} />
-          )
+          ),
         }}
       />
     </Tab.Navigator>
