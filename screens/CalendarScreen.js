@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import CalendarView from '../components/CalendarView';
 import { format } from 'date-fns';
@@ -6,11 +6,15 @@ import FeedList from '../components/FeedList';
 
 function CalendarScreen() {
   const { log } = useSelector(state => state.text);
-  const markedDates = log?.reduce((acc, cur) => {
-    const formattedDate = format(new Date(cur.date), 'yyyy-MM-dd');
-    acc[formattedDate] = { marked: true };
-    return acc;
-  }, {});
+  const markedDates = useMemo(
+    () =>
+      log?.reduce((acc, cur) => {
+        const formattedDate = format(new Date(cur.date), 'yyyy-MM-dd');
+        acc[formattedDate] = { marked: true };
+        return acc;
+      }, {}),
+    [log]
+  );
 
   const [selectedDate, setSelectedDate] = useState(
     format(new Date(), 'yyyy-MM-dd')

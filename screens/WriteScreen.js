@@ -16,17 +16,21 @@ function WriteScreen({ route }) {
   const navigation = useNavigation();
   const [title, setTitle] = useState(screenLog?.title ?? '');
   const [body, setBody] = useState(screenLog?.body ?? '');
+  const [date, setDate] = useState(
+    log.length > 0 ? new Date(log.date) : new Date()
+  );
+  console.log(log);
   const onSave = () => {
     if (screenLog) {
       onModify({
         id: screenLog.id,
-        date: screenLog.date,
+        date: date.toISOString(),
         title,
         body,
       });
     } else {
       dispatch(
-        setText({ id: uuidv4(), title, body, date: new Date().toISOString() })
+        setText({ id: uuidv4(), title, body, date: date.toISOString() })
       );
     }
     navigation.pop();
@@ -70,7 +74,9 @@ function WriteScreen({ route }) {
         <WriteHeader
           onSave={onSave}
           onAskRemove={onAskRemove}
-          isEditing={!!log}
+          isEditing={log.length > 0}
+          date={date}
+          onChangeDate={setDate}
         />
         <WriteEditor
           title={title}
