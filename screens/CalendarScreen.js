@@ -1,17 +1,30 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import CalendarView from '../components/CalendarView';
+import { format } from 'date-fns';
 
 function CalendarScreen() {
-  return <View style={styles.block} />;
-}
+  const { log } = useSelector(state => state.text);
+  const markedDates = log?.reduce((acc, cur) => {
+    const formattedDate = format(new Date(cur.date), 'yyyy-MM-dd');
+    acc[formattedDate] = { marked: true };
+    return acc;
+  }, {});
 
-const styles = StyleSheet.create({
-  block: {},
-  rectangle: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'black',
-  },
-});
+  useEffect(() => {
+    console.log(format(new Date(), 'yyyy-MM-dd'));
+  }, []);
+
+  const [selectedDate, setSelectedDate] = useState(
+    format(new Date(), 'yyyy-MM-dd')
+  );
+  return (
+    <CalendarView
+      markedDates={markedDates}
+      selectedDate={selectedDate}
+      onSelectedDate={setSelectedDate}
+    />
+  );
+}
 
 export default CalendarScreen;
