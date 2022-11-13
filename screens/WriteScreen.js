@@ -16,10 +16,8 @@ function WriteScreen({ route }) {
   const navigation = useNavigation();
   const [title, setTitle] = useState(screenLog?.title ?? '');
   const [body, setBody] = useState(screenLog?.body ?? '');
-  const [date, setDate] = useState(
-    log.length > 0 ? new Date(log.date) : new Date()
-  );
-  console.log(log);
+  const [date, setDate] = useState(screenLog ? screenLog.date : new Date());
+
   const onSave = () => {
     if (screenLog) {
       onModify({
