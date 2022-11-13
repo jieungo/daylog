@@ -12,7 +12,6 @@ import { v4 as uuidv4 } from 'uuid';
 function WriteScreen({ route }) {
   const { log } = useSelector(state => state.text);
   const screenLog = route.params?.log;
-  console.log('write', log);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [title, setTitle] = useState(screenLog?.title ?? '');

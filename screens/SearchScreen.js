@@ -1,12 +1,26 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { useSelector } from 'react-redux';
+import FeedList from '../components/FeedList';
 
 function SearchScreen() {
-  return <View style={styles.block} />;
+  const { keyword } = useSelector(state => state.text);
+  const { log } = useSelector(state => state.text);
+
+  const filtered =
+    keyword === ''
+      ? []
+      : log.filter(l => [l.title, l.body].some(text => text.includes(keyword)));
+
+  return (
+    <View style={styles.block}>
+      <FeedList logs={filtered} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  block: {}
+  block: { flex: 1 },
 });
 
 export default SearchScreen;

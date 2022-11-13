@@ -4,10 +4,12 @@ import FeedsScreen from './FeedsScreen';
 import CalendarScreen from './CalendarScreen';
 import SearchScreen from './SearchScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SearchHeader from '../components/SearchHeader';
 
 const Tab = createBottomTabNavigator();
 
 function MainTab() {
+  const [keyword, setKeyword] = useState('');
   return (
     <Tab.Navigator
       screenOptions={{ showLabel: false, activeTintColor: '#009688' }}
@@ -33,9 +35,13 @@ function MainTab() {
       <Tab.Screen
         name="Search"
         component={SearchScreen}
+        initialParams={{ keyword: keyword }}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="search" size={size} color={color} />
+          ),
+          headerTitle: () => (
+            <SearchHeader keyword={keyword} setKeyword={setKeyword} />
           ),
         }}
       />

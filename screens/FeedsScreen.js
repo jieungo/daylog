@@ -7,6 +7,7 @@ import FloatingWriteButton from '../components/FloatingWriteButton';
 function FeedScreen() {
   const [hidden, setHidden] = useState(false);
   const { log } = useSelector(state => state.text);
+
   const onScrolledToBottom = isBottom => {
     if (hidden !== isBottom) {
       setHidden(isBottom);

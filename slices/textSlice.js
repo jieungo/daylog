@@ -8,6 +8,7 @@ const initialState = {
     date: '',
   },
   log: [],
+  keyword: '',
 };
 
 export const textSlice = createSlice({
@@ -21,8 +22,11 @@ export const textSlice = createSlice({
     setLogs: (state, action) => {
       state.log = [...action.payload];
     },
+    setKeyword: (state, action) => {
+      state.keyword = action.payload;
+    },
   },
 });
 
-export const { setText, setLogs } = textSlice.actions;
+export const { setText, setLogs, setKeyword } = textSlice.actions;
 export default textSlice.reducer;
